@@ -1,0 +1,58 @@
+/*
+最接近的三数之和
+
+给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。
+返回这三个数的和。假定每组输入只存在唯一答案。
+
+例如，给定数组 nums = [-1，2，1，-4], 和 target = 1.
+
+与 target 最接近的三个数的和为 2. (-1 + 2 + 1 = 2).
+
+
+*思路：依然是排序和双指针
+其中，需要找出来的是相差最小的那个和
+那么，就定义一个MaxCloseSum,每次更新他就行了
+*
+*
+* */
+
+import java.util.Arrays;
+
+public class leetcode16 {
+    public int threeSumClosest(int[] nums, int target) {
+        //如果不足或者正好是3个整数
+        if(nums.length<=3){
+            int s=0;
+            for (int m = 0; m <nums.length ; m++) {
+                s+=nums[m];
+            }
+            return  s;
+        }
+        //排序
+        Arrays.sort(nums);
+        //初始胡最小的和
+        int MaxCloseSum=nums[0]+nums[1]+nums[2];
+        //双指针
+        for (int k = 0; k <nums.length-2 ; k++) {
+
+            int L=k+1;
+            int R=nums.length-1;
+            while (L<R){
+                int sum=nums[k]+nums[L]+nums[R];
+                if(Math.abs(sum-target)<Math.abs(MaxCloseSum-target)){
+                    MaxCloseSum=sum;
+                }
+
+                if(sum>target){
+                    R--;
+                }else if(sum<target){
+                    L++;
+                }else{
+                    return target;  //如果相等那就直接输出
+                }
+            }
+
+        }
+        return MaxCloseSum;
+    }
+}
